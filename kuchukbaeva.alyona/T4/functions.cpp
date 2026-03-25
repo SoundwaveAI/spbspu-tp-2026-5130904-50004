@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-void kuchukbaeva::scaleRel(const std::vector<std::weak_ptr<Shape»& shapes, point_t center, double k)
+void kuchukbaeva::scaleRel(const std::vector<std::weak_ptr<Shape>>& shapes, point_t center, double k)
 {
   if (k < 0.0) {
     throw std::invalid_argument("Cef must be non-negative");
@@ -18,7 +18,7 @@ void kuchukbaeva::scaleRel(const std::vector<std::weak_ptr<Shape»& shapes, poin
   }
 }
 
-kuchukbaeva::rectangle_t kuchukbaeva::getAggFrameRect(const std::vector<std::weak_ptr<Shape»& shapes)
+kuchukbaeva::rectangle_t kuchukbaeva::getAggFrameRect(const std::vector<std::weak_ptr<Shape>>& shapes)
 {
   if (shapes.empty()) {
     return {0.0, 0.0, {0.0, 0.0}};
@@ -53,7 +53,7 @@ kuchukbaeva::rectangle_t kuchukbaeva::getAggFrameRect(const std::vector<std::wea
   return {max_x - min_x, max_y - min_y, {(min_x + max_x) / 2.0, (min_y + max_y) / 2.0}};
 }
 
-double kuchukbaeva::getAggArea(const std::vector<std::weak_ptr<Shape»& shapes)
+double kuchukbaeva::getAggArea(const std::vector<std::weak_ptr<Shape>>& shapes)
 {
   double total_area = 0.0;
   for (const auto& weak_shape : shapes) {
