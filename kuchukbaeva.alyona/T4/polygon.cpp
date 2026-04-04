@@ -29,11 +29,11 @@ kuchukbaeva::rectangle_t kuchukbaeva::Polygon::getFrameRect() const
   double min_y = vertices_[0].y;
   double max_y = vertices_[0].y;
 
-  for (const auto& v : vertices_) {
-    min_x = std::min(min_x, v.x);
-    max_x = std::max(max_x, v.x);
-    min_y = std::min(min_y, v.y);
-    max_y = std::max(max_y, v.y);
+  for (size_t i = 1; i < vertices_.size(); ++i) {
+    min_x = std::min(min_x, vertices_[i].x);
+    max_x = std::max(max_x, vertices_[i].x);
+    min_y = std::min(min_y, vertices_[i].y);
+    max_y = std::max(max_y, vertices_[i].y);
   }
   return {max_x - min_x, max_y - min_y, {(min_x + max_x) / 2.0, (min_y + max_y) / 2.0}};
 }
@@ -68,9 +68,9 @@ void kuchukbaeva::Polygon::move(point_t pos)
 
 void kuchukbaeva::Polygon::move(double dx, double dy)
 {
-  for (auto& v : vertices_) {
-    v.x += dx;
-    v.y += dy;
+  for (size_t i = 0; i < vertices_.size(); ++i) {
+    vertices_[i].x += dx;
+    vertices_[i].y += dy;
   }
 }
 
@@ -80,8 +80,8 @@ void kuchukbaeva::Polygon::scale(double cef)
     throw std::invalid_argument("Scale cef must be positive");
   }
   point_t centroid = getCentroid();
-  for (auto& v : vertices_) {
-    v.x = centroid.x + (v.x - centroid.x) * cef;
-    v.y = centroid.y + (v.y - centroid.y) * cef;
+  for (size_t i = 0; i < vertices_.size(); ++i) {
+    vertices_[i].x = centroid.x + (vertices_[i].x - centroid.x) * cef;
+    vertices_[i].y = centroid.y + (vertices_[i].y - centroid.y) * cef;
   }
 }

@@ -32,12 +32,15 @@ kuchukbaeva::point_t kuchukbaeva::Complexquad::getIntersection() const
 double kuchukbaeva::Complexquad::getArea() const
 {
   point_t center = getIntersection();
+  double area1 = std::abs((pts_[0].x * (pts_[1].y - center.y) +
+                           pts_[1].x * (center.y - pts_[0].y) +
+                           center.x * (pts_[0].y - pts_[1].y)) / 2.0);
 
-  auto triArea = [](point_t a, point_t b, point_t c) {
-    return std::abs((a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y)) / 2.0);
-  };
+  double area2 = std::abs((pts_[2].x * (pts_[3].y - center.y) +
+                           pts_[3].x * (center.y - pts_[2].y) +
+                           center.x * (pts_[2].y - pts_[3].y)) / 2.0);
 
-  return triArea(pts_[0], pts_[1], center) + triArea(pts_[2], pts_[3], center);
+  return area1 + area2;
 }
 
 kuchukbaeva::rectangle_t kuchukbaeva::Complexquad::getFrameRect() const
