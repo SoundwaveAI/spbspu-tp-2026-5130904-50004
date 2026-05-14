@@ -19,3 +19,51 @@ kuchukbaeva::IOGuard::~IOGuard()
   s_.flags(fmt_);
   s_.fill(fill_);
 }
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DelimiterIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  char c = '0';
+  in >> c;
+  if (in && (c != dest.exp)) {
+    in.setstate(std::ios::failbit);
+  }
+  return in;
+}
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::LabelIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  std::string data = "";
+  in >> data;
+  if (in && (data != dest.exp)) {
+    in.setstate(std::ios::failbit);
+  }
+  return in;
+}
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  std::string data = "";
+  in >> data;
+  if (data == "key1") {
+    dest.ref = lab::Key::KEY1;
+  } else if (data == "key2") {
+    dest.ref = lab::Key::KEY2;
+  } else if (data == "key3") {
+    dest.ref = lab::Key::KEY3;
+  } else {
+    in.setstate(std::ios::failbit);
+  }
+  return in;
+}
