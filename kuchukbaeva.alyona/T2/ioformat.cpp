@@ -67,3 +67,39 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& des
   }
   return in;
 }
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DblLitIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  in >> dest.ref;
+  char c = '0';
+  in >> c;
+  if (in && (std::tolower(c) != 'd')) {
+    in.setstate(std::ios::failbit);
+  }
+  return in;
+}
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::RatLspIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  return in >> lab::DelimiterIO{'('} >> lab::DelimiterIO{':'}
+            >> lab::LabelIO{"N"} >> dest.ref.first
+            >> lab::DelimiterIO{':'} >> lab::LabelIO{"D"} >> dest.ref.second
+            >> lab::DelimiterIO{':'} >> lab::DelimiterIO{')'};
+}
+
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::StringIO&& dest)
+{
+  std::istream::sentry sentry(in);
+  if (!sentry) {
+    return in;
+  }
+  return std::getline(in >> lab::DelimiterIO{'"'}, dest.ref, '"');
+}
