@@ -57,11 +57,11 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& des
   std::string data = "";
   in >> data;
   if (data == "key1") {
-    dest.ref = lab::Key::KEY1;
+    dest.ref = kuchukbaeva::Key::KEY1;
   } else if (data == "key2") {
-    dest.ref = lab::Key::KEY2;
+    dest.ref = kuchukbaeva::Key::KEY2;
   } else if (data == "key3") {
-    dest.ref = lab::Key::KEY3;
+    dest.ref = kuchukbaeva::Key::KEY3;
   } else {
     in.setstate(std::ios::failbit);
   }
@@ -89,10 +89,10 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::RatLspIO&& 
   if (!sentry) {
     return in;
   }
-  return in >> lab::DelimiterIO{'('} >> lab::DelimiterIO{':'}
-            >> lab::LabelIO{"N"} >> dest.ref.first
-            >> lab::DelimiterIO{':'} >> lab::LabelIO{"D"} >> dest.ref.second
-            >> lab::DelimiterIO{':'} >> lab::DelimiterIO{')'};
+  return in >> kuchukbaeva::DelimiterIO{'('} >> kuchukbaeva::DelimiterIO{':'}
+            >> kuchukbaeva::LabelIO{"N"} >> dest.ref.first
+            >> kuchukbaeva::DelimiterIO{':'} >> kuchukbaeva::LabelIO{"D"} >> dest.ref.second
+            >> kuchukbaeva::DelimiterIO{':'} >> kuchukbaeva::DelimiterIO{')'};
 }
 
 std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::StringIO&& dest)
@@ -101,5 +101,13 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::StringIO&& 
   if (!sentry) {
     return in;
   }
-  return std::getline(in >> lab::DelimiterIO{'"'}, dest.ref, '"');
+  return std::getline(in >> kuchukbaeva::DelimiterIO{'"'}, dest.ref, '"');
+}
+
+std::ostream& kuchukbaeva::operator<<(std::ostream& out, const kuchukbaeva::DblLitOut& src) {
+  return out << src.ref << "d";
+}
+
+std::ostream& kuchukbaeva::operator<<(std::ostream& out, const kuchukbaeva::RatLspOut& src) {
+  return out << "(:N " << src.ref.first << ":D " << src.ref.second << ":)";
 }

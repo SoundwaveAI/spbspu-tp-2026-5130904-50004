@@ -7,12 +7,12 @@
 namespace kuchukbaeva {
   struct KeyValueIO {
     DataStruct& dest;
+    int& mask;
   };
   std::istream& operator>>(std::istream& in, KeyValueIO&& dest);
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyValueIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyValueIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -21,12 +21,15 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyValueIO&
   kuchukbaeva::Key key = kuchukbaeva::Key::KEY1;
   in >> kuchukbaeva::DelimiterIO{':'} >> kuchukbaeva::KeyIO{key};
 
-  if (key == kuchukbaeva::Key::KEY1) {
+  if (key == kuchukbaeva::Key::KEY1 && !(dest.mask & 1)) {
     in >> kuchukbaeva::DblLitIO{dest.dest.key1};
-  } else if (key == kuchukbaeva::Key::KEY2) {
+    dest.mask |= 1;
+  } else if (key == kuchukbaeva::Key::KEY2 && !(dest.mask & 2)) {
     in >> kuchukbaeva::RatLspIO{dest.dest.key2};
+    dest.mask |= 2;
   } else if (key == kuchukbaeva::Key::KEY3) {
     in >> kuchukbaeva::StringIO{dest.dest.key3};
+    dest.mask |= 4;
   } else {
     in.setstate(std::ios::failbit);
   }
@@ -56,10 +59,11 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DataStruct&
   }
 
   kuchukbaeva::DataStruct input = {0.0, {0, 0}, ""};
+  int mask = 0;
   in >> kuchukbaeva::DelimiterIO{'('}
-     >> kuchukbaeva::KeyValueIO{input}
-     >> kuchukbaeva::KeyValueIO{input}
-     >> kuchukbaeva::KeyValueIO{input}
+     >> kuchukbaeva::KeyValueIO{input, mask}
+     >> kuchukbaeva::KeyValueIO{input, mask}
+     >> kuchukbaeva::KeyValueIO{input, mask}
      >> kuchukbaeva::DelimiterIO{':'} >> kuchukbaeva::DelimiterIO{')'};
 
   if (in) {
@@ -80,8 +84,8 @@ std::ostream& kuchukbaeva::operator<<(std::ostream& out, const kuchukbaeva::Data
   }
   kuchukbaeva::IOGuard fmtguard(out);
   out << std::fixed << std::setprecision(1);
-  out << "(:key1 " << src.key1 << "d";
-  out << ":key2 (:N " << src.key2.first << ":D " << src.key2.second << ":)";
-  out << ":key3 \"" << src.key3 << "\":)";
+  out << "(:key1 " << kuchukbaeva::DblLitOut{src.key1}
+      << ":key2 " << kuchukbaeva::RatLspOut{src.key2}
+      << ":key3 \"" << src.key3 << "\":)";
   return out;
 }

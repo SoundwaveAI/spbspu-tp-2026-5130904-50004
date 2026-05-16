@@ -29,8 +29,11 @@ namespace kuchukbaeva {
   };
 
   struct RatLspIO {
-    std::pair<long long, unsigned long long>& ref;
+    std::pair< long long, unsigned long long >& ref;
   };
+
+  std::ostream& operator<<(std::ostream& out, const DblLitOut& src);
+  std::ostream& operator<<(std::ostream& out, const RatLspOut& src);
 
   struct StringIO {
     std::string& ref;
