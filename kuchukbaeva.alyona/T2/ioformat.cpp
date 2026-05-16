@@ -9,19 +9,16 @@ kuchukbaeva::IOGuard::IOGuard(std::basic_ios<char>& s):
   precision_(s.precision()),
   fmt_(s.flags()),
   fill_(s.fill())
-{
-}
+{}
 
-kuchukbaeva::IOGuard::~IOGuard()
-{
+kuchukbaeva::IOGuard::~IOGuard() {
   s_.width(width_);
   s_.precision(precision_);
   s_.flags(fmt_);
   s_.fill(fill_);
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DelimiterIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DelimiterIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -34,8 +31,7 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DelimiterIO
   return in;
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::LabelIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::LabelIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -48,8 +44,7 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::LabelIO&& d
   return in;
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -68,8 +63,7 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyIO&& des
   return in;
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DblLitIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DblLitIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -83,8 +77,7 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DblLitIO&& 
   return in;
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::RatLspIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::RatLspIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -95,8 +88,7 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::RatLspIO&& 
             >> kuchukbaeva::DelimiterIO{':'} >> kuchukbaeva::DelimiterIO{')'};
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::StringIO&& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::StringIO&& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;

@@ -36,14 +36,13 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::KeyValueIO&
   return in;
 }
 
-bool kuchukbaeva::operator<(const kuchukbaeva::DataStruct& lhs, const kuchukbaeva::DataStruct& rhs)
-{
+bool kuchukbaeva::operator<(const kuchukbaeva::DataStruct& lhs, const kuchukbaeva::DataStruct& rhs) {
   if (lhs.key1 != rhs.key1) {
     return lhs.key1 < rhs.key1;
   }
 
-  const double rat1 = static_cast<double>(lhs.key2.first) / lhs.key2.second;
-  const double rat2 = static_cast<double>(rhs.key2.first) / rhs.key2.second;
+  const double rat1 = static_cast< double >(lhs.key2.first) / lhs.key2.second;
+  const double rat2 = static_cast< double >(rhs.key2.first) / rhs.key2.second;
   if (rat1 != rat2) {
     return rat1 < rat2;
   }
@@ -51,8 +50,7 @@ bool kuchukbaeva::operator<(const kuchukbaeva::DataStruct& lhs, const kuchukbaev
   return lhs.key3.length() < rhs.key3.length();
 }
 
-std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DataStruct& dest)
-{
+std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DataStruct& dest) {
   std::istream::sentry sentry(in);
   if (!sentry) {
     return in;
@@ -70,22 +68,21 @@ std::istream& kuchukbaeva::operator>>(std::istream& in, kuchukbaeva::DataStruct&
     dest = input;
   } else {
     in.clear();
-    in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     in >> dest;
   }
   return in;
 }
 
-std::ostream& kuchukbaeva::operator<<(std::ostream& out, const kuchukbaeva::DataStruct& src)
-{
+std::ostream& kuchukbaeva::operator<<(std::ostream& out, const kuchukbaeva::DataStruct& src) {
   std::ostream::sentry sentry(out);
   if (!sentry) {
     return out;
   }
   kuchukbaeva::IOGuard fmtguard(out);
   out << std::fixed << std::setprecision(1);
-  out << "(:key1 " << kuchukbaeva::DblLitOut{src.key1}
-      << ":key2 " << kuchukbaeva::RatLspOut{src.key2}
-      << ":key3 \"" << src.key3 << "\":)";
+  out << "(:key1 " << kuchukbaeva::DblLitOut{src.key1};
+  out  << ":key2 " << kuchukbaeva::RatLspOut{src.key2};
+  out  << ":key3 \"" << src.key3 << "\":)";
   return out;
 }

@@ -1,7 +1,9 @@
 #ifndef IOFORMAT_HPP
 #define IOFORMAT_HPP
 
-#include <iosfwd>
+#include <ios>
+#include <istream>
+#include <ostream>
 #include <string>
 #include <utility>
 
@@ -32,22 +34,27 @@ namespace kuchukbaeva {
     std::pair< long long, unsigned long long >& ref;
   };
 
-  std::ostream& operator<<(std::ostream& out, const DblLitOut& src);
-  std::ostream& operator<<(std::ostream& out, const RatLspOut& src);
-
   struct StringIO {
     std::string& ref;
   };
 
+  struct DblLitOut {
+    const double& ref;
+  };
+
+  struct RatLspOut {
+    const std::pair< long long, unsigned long long >& ref;
+  };
+
   class IOGuard {
   public:
-    explicit IOGuard(std::basic_ios<char>& s);
+    explicit IOGuard(std::basic_ios< char >& s);
     ~IOGuard();
   private:
-    std::basic_ios<char>& s_;
+    std::basic_ios< char >& s_;
     std::streamsize width_;
     std::streamsize precision_;
-    std::basic_ios<char>::fmtflags fmt_;
+    std::basic_ios< char >::fmtflags fmt_;
     char fill_;
   };
 
@@ -57,6 +64,9 @@ namespace kuchukbaeva {
   std::istream& operator>>(std::istream& in, DblLitIO&& dest);
   std::istream& operator>>(std::istream& in, RatLspIO&& dest);
   std::istream& operator>>(std::istream& in, StringIO&& dest);
+
+  std::ostream& operator<<(std::ostream& out, const DblLitOut& src);
+  std::ostream& operator<<(std::ostream& out, const RatLspOut& src);
 }
 
 #endif
