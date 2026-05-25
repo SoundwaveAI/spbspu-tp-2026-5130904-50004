@@ -44,12 +44,18 @@ namespace
     }
   };
 
+  double getTriangleArea(const kuchukbaeva::Point& p0, const kuchukbaeva::Point& p1, const kuchukbaeva::Point& p2)
+  {
+    double area = (p1.x_ - p0.x_) * (p2.y_ - p0.y_) - (p2.x_ - p0.x_) * (p1.y_ - p0.y_);
+    return std::abs(area) / 2.0;
+  }
+
   struct TriangleAreaGenerator
   {
-    const Polygon& poly_;
+    const kuchukbaeva::Polygon& poly_;
     size_t idx_;
 
-    TriangleAreaGenerator(const Polygon& p):
+    TriangleAreaGenerator(const kuchukbaeva::Polygon& p):
       poly_(p),
       idx_(1)
     {}
@@ -164,8 +170,13 @@ std::ostream& kuchukbaeva::operator<<(std::ostream& out, const Polygon& src)
 
 double kuchukbaeva::getArea(const Polygon& poly)
 {
-  double area = (p1.x_ - p0.x_) * (p2.y_ - p0.y_) - (p2.x_ - p0.x_) * (p1.y_ - p0.y_);
-  return std::abs(area) / 2.0;
+  if (poly.points_.size() < 3)
+  {
+    return 0.0;
+  }
+  std::vector< double > triAreas(poly.points_.size() - 2);
+  std::generate(triAreas.begin(), triAreas.end(), TriangleAreaGenerator(poly));
+  return std::accumulate(triAreas.begin(), triAreas.end(), 0.0);
 }
 
 bool kuchukbaeva::hasRightAngle(const Polygon& poly)

@@ -8,6 +8,17 @@
 #include "shape.hpp"
 #include "commands.hpp"
 
+namespace kuchukbaeva
+{
+  using const_cmd_t = std::function< void(std::istream&, std::ostream&) >;
+  using non_const_cmd_t = std::function< void(std::istream&, std::ostream&) >;
+
+  void readPolygonsRecursive(std::istream& in, std::vector< Polygon >& polygons);
+  void processCommandRecursive(std::istream& in, std::ostream& out,
+    const std::map< std::string, const_cmd_t >& const_cmds,
+    const std::map< std::string, non_const_cmd_t >& non_const_cmds);
+}
+
 void kuchukbaeva::readPolygonsRecursive(std::istream& in, std::vector< Polygon >& polygons)
 {
   if (!in || in.eof())
