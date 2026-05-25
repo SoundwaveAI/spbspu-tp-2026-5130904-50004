@@ -193,15 +193,76 @@ void kuchukbaeva::minCommand(std::istream& in, std::ostream& out, const std::vec
 
 void kuchukbaeva::countCommand(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
 {
+  std::string param;
+  if (!(in >> param))
+  {
+    out << "<INVALID COMMAND>\n";
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    return;
+  }
 
+  if (param == "EVEN")
+  {
+    out << std::count_if(polygons.begin(), polygons.end(), isEvenPolygon) << "\n";
+  }
+  else if (param == "ODD")
+  {
+    out << std::count_if(polygons.begin(), polygons.end(), isOddPolygon) << "\n";
+  }
+  else
+  {
+    if (!std::all_of(param.begin(), param.end(), ::isdigit))
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      return;
+    }
+    size_t n = std::stoull(param);
+    if (n < 3)
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      return;
+    }
+    out << std::count_if(polygons.begin(), polygons.end(), std::bind(hasNPoints, std::placeholders::_1, n)) << "\n";
+  }
 }
 
 void kuchukbaeva::maxseqCommand(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
 {
+  Polygon target;
+  if (!(in >> target) || target.points_.size() < 3)
+  {
+    out << "<INVALID COMMAND>\n";
+    in.clear();
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    return;
+  }
+  if (in.peek() != '\n' && in.peek() != EOF)
+  {
+    out << "<INVALID COMMAND>\n";
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    return;
+  }
 
+  std::vector< int > matches(polygons.size());
+  std::transform(polygons.begin(), polygons.end(), matches.begin(), std::bind(comparePolygons, std::placeholders::_1, target));
+
+  std::vector< size_t > sequences(matches.size());
+  std::generate(sequences.begin(), sequences.end(), MaxSeqGenerator{matches.cbegin(), matches.cend()});
+
+  const auto max_it = std::max_element(sequences.begin(), sequences.end(), CompareLengths{});
+  size_t result = (max_it != sequences.end()) ? *max_it : 0;
+  out << result << "\n";
 }
 
 void kuchukbaeva::rightshapesCommand(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
 {
-
+  if (in.peek() != '\n' && in.peek() != EOF)
+  {
+    out << "<INVALID COMMAND>\n";
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    return;
+  }
+  out << std::count_if(polygons.begin(), polygons.end(), hasRightAngle) << "\n";
 }
