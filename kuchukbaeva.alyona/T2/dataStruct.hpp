@@ -5,10 +5,12 @@
 #include <string>
 #include <utility>
 
-namespace kuchukbaeva {
-  struct DataStruct {
+namespace kuchukbaeva
+{
+  struct DataStruct
+  {
     double key1;
-    std::pair<long long, unsigned long long> key2;
+    std::pair< long long, unsigned long long > key2;
     std::string key3;
   };
 

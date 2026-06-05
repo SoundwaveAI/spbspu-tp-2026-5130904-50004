@@ -1,14 +1,15 @@
 #ifndef POLYGON_HPP
 #define POLYGON_HPP
-#include "shape.hpp"
+
 #include <vector>
+#include "shape.hpp"
 
-namespace kuchukbaeva {
-
-  class Polygon : public Shape {
+namespace kuchukbaeva
+{
+  class Polygon: public Shape
+  {
   public:
-    Polygon(const std::vector<point_t>& vertices);
-
+    Polygon(const std::vector< point_t >& vertices);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(point_t pos) override;
@@ -16,10 +17,9 @@ namespace kuchukbaeva {
     void scale(double cef) override;
 
   private:
-    std::vector<point_t> vertices_;
+    std::vector< point_t > vertices_;
     point_t getCentroid() const;
   };
-
 }
 
 #endif

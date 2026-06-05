@@ -6,7 +6,8 @@ kuchukbaeva::Rectangle::Rectangle(point_t pos, double width, double height):
   width_(width),
   height_(height)
 {
-  if (width_ < 0.0 || height_ < 0.0) {
+  if (width_ < 0.0 || height_ < 0.0)
+  {
     throw std::invalid_argument("Rectangle dimensions must be positive");
   }
 }
@@ -34,7 +35,8 @@ void kuchukbaeva::Rectangle::move(double dx, double dy)
 
 void kuchukbaeva::Rectangle::scale(double cef)
 {
-  if (cef < 0.0) {
+  if (cef < 0.0)
+  {
     throw std::invalid_argument("Scale cef must be positive");
   }
   width_ *= cef;
