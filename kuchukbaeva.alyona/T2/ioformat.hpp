@@ -7,46 +7,57 @@
 #include <string>
 #include <utility>
 
-namespace kuchukbaeva {
-  enum class Key {
+namespace kuchukbaeva
+{
+  enum class Key
+  {
     KEY1,
     KEY2,
     KEY3
   };
 
-  struct DelimiterIO {
+  struct DelimiterIO
+  {
     char exp;
   };
 
-  struct LabelIO {
+  struct LabelIO
+  {
     std::string exp;
   };
 
-  struct KeyIO {
+  struct KeyIO
+  {
     Key& ref;
   };
 
-  struct DblLitIO {
+  struct DblLitIO
+  {
     double& ref;
   };
 
-  struct RatLspIO {
+  struct RatLspIO
+  {
     std::pair< long long, unsigned long long >& ref;
   };
 
-  struct StringIO {
+  struct StringIO
+  {
     std::string& ref;
   };
 
-  struct DblLitOut {
+  struct DblLitOut
+  {
     const double& ref;
   };
 
-  struct RatLspOut {
+  struct RatLspOut
+  {
     const std::pair< long long, unsigned long long >& ref;
   };
 
-  class IOGuard {
+  class IOGuard
+  {
   public:
     explicit IOGuard(std::basic_ios< char >& s);
     ~IOGuard();
