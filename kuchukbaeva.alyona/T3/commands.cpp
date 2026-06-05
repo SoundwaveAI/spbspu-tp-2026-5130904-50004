@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include "ioform.hpp"
 #include <iostream>
 #include <iomanip>
 #include <numeric>
@@ -7,11 +6,11 @@
 #include <functional>
 #include <string>
 #include <limits>
+#include "ioform.hpp"
 
 namespace
 {
   using iter_t = std::vector< int >::const_iterator;
-
   struct MaxSeqGenerator
   {
     iter_t current_;

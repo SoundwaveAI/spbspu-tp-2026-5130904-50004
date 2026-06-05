@@ -1,10 +1,10 @@
 #include "shape.hpp"
-#include "ioform.hpp"
 #include <iostream>
 #include <iterator>
 #include <algorithm>
 #include <numeric>
 #include <cmath>
+#include "ioform.hpp"
 
 namespace
 {

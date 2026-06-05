@@ -76,7 +76,6 @@ void kuchukbaeva::processCommandRecursive(std::istream& in, std::ostream& out,
 
 int main(int argc, char* argv[])
 {
-
   if (argc != 2)
   {
     std::cerr << "Invalid number of arguments\n";

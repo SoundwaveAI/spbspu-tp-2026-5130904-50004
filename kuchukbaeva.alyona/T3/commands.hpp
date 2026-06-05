@@ -1,10 +1,10 @@
 #ifndef COMMANDS_HPP
 #define COMMANDS_HPP
 
-#include "shape.hpp"
 #include <istream>
 #include <ostream>
 #include <vector>
+#include "shape.hpp"
 
 namespace kuchukbaeva
 {
