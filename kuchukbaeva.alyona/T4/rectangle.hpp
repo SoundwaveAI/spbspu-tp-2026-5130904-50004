@@ -4,7 +4,6 @@
 
 namespace kuchukbaeva
 {
-
   class Rectangle: public Shape
   {
   public:

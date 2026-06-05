@@ -3,7 +3,6 @@
 
 namespace kuchukbaeva
 {
-
   struct point_t
   {
     double x;
