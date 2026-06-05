@@ -2,12 +2,12 @@
 #define RECTANGLE_HPP
 #include "shape.hpp"
 
-namespace kuchukbaeva {
-
-  class Rectangle : public Shape {
+namespace kuchukbaeva
+{
+  class Rectangle: public Shape
+  {
   public:
     Rectangle(point_t pos, double width, double height);
-
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(point_t pos) override;
@@ -19,7 +19,6 @@ namespace kuchukbaeva {
     double width_;
     double height_;
   };
-
 }
 
 #endif

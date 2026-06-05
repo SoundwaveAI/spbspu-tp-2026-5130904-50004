@@ -3,10 +3,11 @@
 #include <cmath>
 #include <algorithm>
 
-kuchukbaeva::Polygon::Polygon(const std::vector<point_t>& vertices):
+kuchukbaeva::Polygon::Polygon(const std::vector< point_t >& vertices):
   vertices_(vertices)
 {
-  if (vertices_.size() < 3) {
+  if (vertices_.size() < 3)
+  {
     throw std::invalid_argument("Polygon must have at least 3 vertices");
   }
 }
@@ -15,7 +16,8 @@ double kuchukbaeva::Polygon::getArea() const
 {
   double area = 0.0;
   size_t n = vertices_.size();
-  for (size_t i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i)
+  {
     size_t j = (i + 1) % n;
     area += (vertices_[i].x * vertices_[j].y - vertices_[j].x * vertices_[i].y);
   }
@@ -29,7 +31,8 @@ kuchukbaeva::rectangle_t kuchukbaeva::Polygon::getFrameRect() const
   double min_y = vertices_[0].y;
   double max_y = vertices_[0].y;
 
-  for (size_t i = 1; i < vertices_.size(); ++i) {
+  for (size_t i = 1; i < vertices_.size(); ++i)
+  {
     min_x = std::min(min_x, vertices_[i].x);
     max_x = std::max(max_x, vertices_[i].x);
     min_y = std::min(min_y, vertices_[i].y);
@@ -45,7 +48,8 @@ kuchukbaeva::point_t kuchukbaeva::Polygon::getCentroid() const
   double area = 0.0;
   size_t n = vertices_.size();
 
-  for (size_t i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i)
+  {
     size_t j = (i + 1) % n;
     double cross = (vertices_[i].x * vertices_[j].y - vertices_[j].x * vertices_[i].y);
     cx += (vertices_[i].x + vertices_[j].x) * cross;
@@ -68,7 +72,8 @@ void kuchukbaeva::Polygon::move(point_t pos)
 
 void kuchukbaeva::Polygon::move(double dx, double dy)
 {
-  for (size_t i = 0; i < vertices_.size(); ++i) {
+  for (size_t i = 0; i < vertices_.size(); ++i)
+  {
     vertices_[i].x += dx;
     vertices_[i].y += dy;
   }
@@ -76,11 +81,13 @@ void kuchukbaeva::Polygon::move(double dx, double dy)
 
 void kuchukbaeva::Polygon::scale(double cef)
 {
-  if (cef < 0.0) {
+  if (cef < 0.0)
+  {
     throw std::invalid_argument("Scale cef must be positive");
   }
   point_t centroid = getCentroid();
-  for (size_t i = 0; i < vertices_.size(); ++i) {
+  for (size_t i = 0; i < vertices_.size(); ++i)
+  {
     vertices_[i].x = centroid.x + (vertices_[i].x - centroid.x) * cef;
     vertices_[i].y = centroid.y + (vertices_[i].y - centroid.y) * cef;
   }
